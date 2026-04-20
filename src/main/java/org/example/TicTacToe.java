@@ -1,18 +1,35 @@
 package org.example;
 
+import java.util.Scanner;
+
 public class TicTacToe {
-    public static void main(String[] args) {
-        char[][] board = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = '-';
+
+    public static int getUserSlot() {
+        Scanner scanner = new Scanner(System.in);
+        int slot;
+
+        while (true) {
+            System.out.print("Enter a slot number (1-9): ");
+            slot = scanner.nextInt();
+
+
+            if (slot >= 1 && slot <= 9) {
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter a number between 1 and 9.");
             }
         }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
+
+        return slot;
     }
+
+    public static void main(String[] args) {
+
+        int chosenSlot = getUserSlot();
+
+
+        System.out.println("You selected slot: " + chosenSlot);
+
+    }
+}
 }
