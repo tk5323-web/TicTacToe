@@ -1,18 +1,15 @@
 package org.example;
 
 import java.util.Scanner;
-
 public class TicTacToe {
+
 
     public static int getUserSlot() {
         Scanner scanner = new Scanner(System.in);
         int slot;
-
         while (true) {
             System.out.print("Enter a slot number (1-9): ");
             slot = scanner.nextInt();
-
-
             if (slot >= 1 && slot <= 9) {
                 break;
             } else {
@@ -24,12 +21,8 @@ public class TicTacToe {
     }
 
     public static void main(String[] args) {
-
         int chosenSlot = getUserSlot();
 
-
         System.out.println("You selected slot: " + chosenSlot);
-
     }
-}
 }
