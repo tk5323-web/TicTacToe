@@ -1,31 +1,54 @@
-package org.example;
-
 public class TicTacToe {
+    private char[][] board;
+    public TicTacToe(int size) {
+        board = new char[size][size];
+        // Fill board with empty spaces
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[i][j] = ' ';
+            }
+        }
+    }
+    public boolean updateBoard(int row, int col, char symbol) {
 
-    public static boolean isValidMove(char[][] board, int row, int col) {
-        if (row < 0 || row > 2 || col < 0 || col > 2) {
-            System.out.println("Invalid move: Out of bounds!");
+        if (row >= 0 && row < board.length && col >= 0 && col < board.length) {
+            if (board[row][col] == ' ') {
+                board[row][col] = symbol;
+                return true;
+            } else {
+                System.out.println("Cell already occupied!");
+                return false;
+            }
+        } else {
+            System.out.println("Invalid move! Out of bounds.");
             return false;
         }
-        if (board[row][col] != '-') {
-            System.out.println("Invalid move: Cell already occupied!");
-            return false;
+    }
+    public void displayBoard() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                System.out.print(board[i][j]);
+                if (j < board.length - 1) System.out.print(" | ");
+            }
+            System.out.println();
+            if (i < board.length - 1) {
+                System.out.println("---------");
+            }
         }
-        return true;
     }
     public static void main(String[] args) {
-        char[][] board = {
-                {'-', '-', '-'},
-                {'-', 'X', '-'},
-                {'-', '-', '-'}
-        };
-        int row = 1, col = 1;
-        System.out.println("Move at (1,1): " + isValidMove(board, row, col));
+        TicTacToe game = new TicTacToe(3);
 
-        row = 2; col = 2;
-        System.out.println("Move at (2,2): " + isValidMove(board, row, col));
+        game.displayBoard();
+        System.out.println("Player X moves:");
+        game.updateBoard(0, 0, 'X');
+        game.displayBoard();
 
-        row = 3; col = 0;
-        System.out.println("Move at (3,0): " + isValidMove(board, row, col));
+        System.out.println("Player O moves:");
+        game.updateBoard(1, 1, 'O');
+        game.displayBoard();
+
+        System.out.println("Invalid move attempt:");
+        game.updateBoard(0, 0, 'O');
     }
 }
