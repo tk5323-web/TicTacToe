@@ -1,14 +1,7 @@
-import java.util.Random;
-
 public class TicTacToe {
     private char[][] board;
-    private Random random;
-    private char currentPlayer;
-
     public TicTacToe(int size) {
         board = new char[size][size];
-        random = new Random();
-        currentPlayer = 'X';
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 board[i][j] = ' ';
@@ -24,36 +17,46 @@ public class TicTacToe {
         }
         return false;
     }
-    public void computerMove(char symbol) {
-        boolean validMove = false;
-        while (!validMove) {
-            int slot = random.nextInt(9) + 1; // 1–9
-            int row = (slot - 1) / 3;
-            int col = (slot - 1) % 3;
-            validMove = updateBoard(row, col, symbol);
-        }
-        System.out.println("Computer placed " + symbol);
-    }
     public boolean checkWin(char symbol) {
-        for (int i = 0; i < board.length; i++) {
-            if ((board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol) ||
-                    (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol)) {
-                return true;
+        int size = board.length;
+        for (int i = 0; i < size; i++) {
+            boolean rowWin = true;
+            for (int j = 0; j < size; j++) {
+                if (board[i][j] != symbol) {
+                    rowWin = false;
+                    break;
+                }
+            }
+            if (rowWin) return true;
+        }
+        for (int j = 0; j < size; j++) {
+            boolean colWin = true;
+            for (int i = 0; i < size; i++) {
+                if (board[i][j] != symbol) {
+                    colWin = false;
+                    break;
+                }
+            }
+            if (colWin) return true;
+        }
+        boolean diag1Win = true;
+        for (int i = 0; i < size; i++) {
+            if (board[i][i] != symbol) {
+                diag1Win = false;
+                break;
             }
         }
-        if ((board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol) ||
-                (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)) {
-            return true;
+        if (diag1Win) return true;
+        boolean diag2Win = true;
+        for (int i = 0; i < size; i++) {
+            if (board[i][size - 1 - i] != symbol) {
+                diag2Win = false;
+                break;
+            }
         }
+        if (diag2Win) return true;
+
         return false;
-    }
-    public boolean checkDraw() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j] == ' ') return false;
-            }
-        }
-        return true;
     }
     public void displayBoard() {
         for (int i = 0; i < board.length; i++) {
@@ -65,33 +68,19 @@ public class TicTacToe {
             if (i < board.length - 1) System.out.println("---------");
         }
     }
-    public void playGame() {
-        boolean gameOver = false;
-        while (!gameOver) {
-            displayBoard();
-            if (currentPlayer == 'X') {
-                updateBoard(0, 0, 'X');
-                System.out.println("Human placed X");
-            } else {
-                computerMove('O');
-            }
-            if (checkWin(currentPlayer)) {
-                displayBoard();
-                System.out.println(currentPlayer + " wins!");
-                gameOver = true;
-            } else if (checkDraw()) {
-                displayBoard();
-                System.out.println("It's a draw!");
-                gameOver = true;
-            } else {
-
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-            }
-        }
-    }
-
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe(3);
-        game.playGame();
+
+        game.updateBoard(0, 0, 'X');
+        game.updateBoard(1, 1, 'X');
+        game.updateBoard(2, 2, 'X');
+
+        game.displayBoard();
+
+        if (game.checkWin('X')) {
+            System.out.println("Player X wins!");
+        } else {
+            System.out.println("No winner yet.");
+        }
     }
 }
