@@ -1,5 +1,6 @@
 public class TicTacToe {
     private char[][] board;
+
     public TicTacToe(int size) {
         board = new char[size][size];
         for (int i = 0; i < size; i++) {
@@ -17,46 +18,18 @@ public class TicTacToe {
         }
         return false;
     }
-    public boolean checkWin(char symbol) {
-        int size = board.length;
-        for (int i = 0; i < size; i++) {
-            boolean rowWin = true;
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] != symbol) {
-                    rowWin = false;
+    public boolean checkDraw() {
+        boolean noEmptyCells = true; // Boolean flag
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] == ' ') {
+                    noEmptyCells = false;
                     break;
                 }
             }
-            if (rowWin) return true;
+            if (!noEmptyCells) break;
         }
-        for (int j = 0; j < size; j++) {
-            boolean colWin = true;
-            for (int i = 0; i < size; i++) {
-                if (board[i][j] != symbol) {
-                    colWin = false;
-                    break;
-                }
-            }
-            if (colWin) return true;
-        }
-        boolean diag1Win = true;
-        for (int i = 0; i < size; i++) {
-            if (board[i][i] != symbol) {
-                diag1Win = false;
-                break;
-            }
-        }
-        if (diag1Win) return true;
-        boolean diag2Win = true;
-        for (int i = 0; i < size; i++) {
-            if (board[i][size - 1 - i] != symbol) {
-                diag2Win = false;
-                break;
-            }
-        }
-        if (diag2Win) return true;
-
-        return false;
+        return noEmptyCells;
     }
     public void displayBoard() {
         for (int i = 0; i < board.length; i++) {
@@ -70,17 +43,22 @@ public class TicTacToe {
     }
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe(3);
-
         game.updateBoard(0, 0, 'X');
-        game.updateBoard(1, 1, 'X');
-        game.updateBoard(2, 2, 'X');
+        game.updateBoard(0, 1, 'O');
+        game.updateBoard(0, 2, 'X');
+        game.updateBoard(1, 0, 'X');
+        game.updateBoard(1, 1, 'O');
+        game.updateBoard(1, 2, 'X');
+        game.updateBoard(2, 0, 'O');
+        game.updateBoard(2, 1, 'X');
+        game.updateBoard(2, 2, 'O');
 
         game.displayBoard();
 
-        if (game.checkWin('X')) {
-            System.out.println("Player X wins!");
+        if (game.checkDraw()) {
+            System.out.println("It's a draw! No moves remain.");
         } else {
-            System.out.println("No winner yet.");
+            System.out.println("Moves still possible.");
         }
     }
 }
